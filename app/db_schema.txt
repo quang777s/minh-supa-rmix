@@ -54,3 +54,5 @@ posts
   published_at (timestamp)
   featured_image (varchar)
   category_id (int)
+  order_index (int)
+  created_by (uuid, Foreign key relation to: auth.users)

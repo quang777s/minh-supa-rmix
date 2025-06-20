@@ -76,7 +76,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
   // Get page data
   const { data: page, error: pageError } = await supabase.client
-    .from("tara_posts")
+    .from("posts")
     .select("*")
     .eq("id", params.id)
     .eq("category_id", 1) // Ensure it's a page

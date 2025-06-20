@@ -103,7 +103,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const supabase = createSupabaseServerClient(request);
 
   // Create new page (post with category_id = 1)
-  const { error } = await supabase.client.from("tara_posts").insert({
+  const { error } = await supabase.client.from("posts").insert({
     title,
     slug,
     post_type,

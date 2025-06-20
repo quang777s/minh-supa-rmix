@@ -67,10 +67,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   // Get all pages (posts with category_id = 1)
   const { data: pages, error: pagesError } = await supabase.client
-    .from('tara_posts')
+    .from('posts')
     .select(`
       *,
-      tara_categories (
+      categories (
         id,
         name
       )

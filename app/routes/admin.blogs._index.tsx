@@ -67,7 +67,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   // Get all blogs (posts with category_id = 2)
   const { data: blogs, error: blogsError } = await supabase.client
-    .from('tara_posts')
+    .from('posts')
     .select(`
       *,
       tara_categories (
