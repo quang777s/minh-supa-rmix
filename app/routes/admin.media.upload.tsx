@@ -100,7 +100,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
       // Upload file to Supabase storage
       const { data, error } = await supabase.client.storage
-        .from("taramind")
+        .from("post-medias")
         .upload(`${Date.now()}-${file.name}`, fileBuffer, {
           contentType: file.type,
           upsert: false,

@@ -23,7 +23,7 @@ const translations = {
   vi: viTranslations,
 };
 
-type TaraPost = {
+type Post = {
   id: number;
   title: string;
   slug: string;
@@ -34,6 +34,10 @@ type TaraPost = {
   publish_at: string;
   featured_image: string;
   category_id: number;
+  order_index: number;
+  created_by: string;
+  profiles: { name: string } | null;
+  categories: { name: string } | null;
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -70,8 +74,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     .from('posts')
     .select(`
       *,
-      tara_categories (
+      categories (
         id,
+        name
+      ),
+      profiles (
         name
       )
     `)
@@ -103,7 +110,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const supabase = createSupabaseServerClient(request);
 
     const { error } = await supabase.client
-      .from("tara_posts")
+      .from("posts")
       .delete()
       .eq("id", postId);
 
@@ -154,6 +161,7 @@ export default function AdminBlogs() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Title</TableHead>
+                      <TableHead>Author</TableHead>
                       <TableHead>Type</TableHead>
                       <TableHead>Created</TableHead>
                       <TableHead>Published</TableHead>
@@ -161,9 +169,10 @@ export default function AdminBlogs() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {blogs.map((blog: TaraPost & { tara_categories: { name: string } }) => (
+                    {blogs.map((blog) => (
                       <TableRow key={blog.id}>
                         <TableCell className="font-medium">{blog.title}</TableCell>
+                        <TableCell>{blog.profiles?.name || '-'}</TableCell>
                         <TableCell>{blog.post_type}</TableCell>
                         <TableCell>{new Date(blog.created_at).toLocaleDateString()}</TableCell>
                         <TableCell>
@@ -204,11 +213,14 @@ export default function AdminBlogs() {
 
               {/* Mobile Cards */}
               <div className="md:hidden space-y-4">
-                {blogs.map((blog: TaraPost & { tara_categories: { name: string } }) => (
+                {blogs.map((blog) => (
                   <Card key={blog.id}>
                     <CardContent className="p-4 space-y-3">
                       <div className="space-y-1">
                         <div className="font-medium">{blog.title}</div>
+                        <div className="text-sm text-muted-foreground">
+                          Author: {blog.profiles?.name || '-' }
+                        </div>
                         <div className="text-sm text-muted-foreground">
                           Type: {blog.post_type}
                         </div>

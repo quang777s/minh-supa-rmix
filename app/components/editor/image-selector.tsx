@@ -97,7 +97,7 @@ export function ImageSelector({
       return file.url;
     }
     // Otherwise, construct the URL for existing files
-    return `${supabaseUrl}/storage/v1/object/public/taramind/${file.name}`;
+    return `${supabaseUrl}/storage/v1/object/public/post-medias/${file.name}`;
   };
 
   return (

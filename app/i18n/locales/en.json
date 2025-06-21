@@ -43,6 +43,11 @@
         "all": "All Blogs",
         "create": "Create Blog"
       },
+      "posts": {
+        "title": "Posts",
+        "all": "All Posts",
+        "create": "Create Post"
+      },
       "users": {
         "title": "Users",
         "all": "All Users"
@@ -67,6 +72,7 @@
     "descriptions": {
       "pages": "Manage all pages and their content",
       "blogs": "Manage all blog posts and their content",
+      "posts": "Manage all posts and their content",
       "users": "Manage user accounts and roles",
       "categories": "Manage content categories",
       "comments": "Manage comments across the website",

@@ -65,7 +65,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   // Get all media files
   const { data: media, error: mediaError } = await supabase.client.storage
-    .from("taramind")
+    .from("post-medias")
     .list();
 
   if (mediaError) {
@@ -95,6 +95,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const published_at = formData.get("published_at") as string;
   const order_index = parseInt(formData.get("order_index") as string) || 0;
 
+  // Get user for created_by
+  const user = await getUser(request);
+  if (!user) {
+    return json({ error: "User not found" });
+  }
+
   // Generate slug from title if empty
   if (!slug) {
     slug = generateSlug(title);
@@ -103,7 +109,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const supabase = createSupabaseServerClient(request);
 
   // Create new blog post (post with category_id = 2)
-  const { error } = await supabase.client.from("tara_posts").insert({
+  const { error } = await supabase.client.from("posts").insert({
     title,
     slug,
     post_type,
@@ -113,7 +119,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     published_at: published_at || null,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
-    order_index
+    order_index,
+    created_by: user.id,
   });
 
   if (error) {

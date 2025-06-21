@@ -23,7 +23,7 @@ const translations = {
   vi: viTranslations,
 };
 
-type TaraPost = {
+type Post = {
   id: number;
   title: string;
   slug: string;
@@ -34,6 +34,10 @@ type TaraPost = {
   publish_at: string;
   featured_image: string;
   category_id: number;
+  order_index: number;
+  created_by: string;
+  profiles: { name: string } | null;
+  categories: { name: string } | null;
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -73,6 +77,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       categories (
         id,
         name
+      ),
+      profiles (
+        name
       )
     `)
     .eq('category_id', 1)
@@ -103,7 +110,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const supabase = createSupabaseServerClient(request);
 
     const { error } = await supabase.client
-      .from("tara_posts")
+      .from("posts")
       .delete()
       .eq("id", postId);
 
@@ -154,6 +161,7 @@ export default function AdminPages() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Title</TableHead>
+                      <TableHead>Author</TableHead>
                       <TableHead>Type</TableHead>
                       <TableHead>Created</TableHead>
                       <TableHead>Published</TableHead>
@@ -161,9 +169,10 @@ export default function AdminPages() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {pages.map((page: TaraPost & { tara_categories: { name: string } }) => (
+                    {pages.map((page) => (
                       <TableRow key={page.id}>
                         <TableCell className="font-medium">{page.title}</TableCell>
+                        <TableCell>{page.profiles?.name || '-'}</TableCell>
                         <TableCell>{page.post_type}</TableCell>
                         <TableCell>{new Date(page.created_at).toLocaleDateString()}</TableCell>
                         <TableCell>
@@ -204,11 +213,14 @@ export default function AdminPages() {
 
               {/* Mobile Cards */}
               <div className="md:hidden space-y-4">
-                {pages.map((page: TaraPost & { tara_categories: { name: string } }) => (
+                {pages.map((page) => (
                   <Card key={page.id}>
                     <CardContent className="p-4 space-y-3">
                       <div className="space-y-1">
                         <div className="font-medium">{page.title}</div>
+                        <div className="text-sm text-muted-foreground">
+                          Author: {page.profiles?.name || '-' }
+                        </div>
                         <div className="text-sm text-muted-foreground">
                           Type: {page.post_type}
                         </div>

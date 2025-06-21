@@ -18,19 +18,14 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { useState } from "react";
-import { RichTextEditor } from "~/components/editor/rich-text-editor";
+import RichTextEditor from "~/components/RichTextEditor";
 import { ImageSelector } from "~/components/editor/image-selector";
-import type { OutputData } from "@editorjs/editorjs";
+import { X } from "lucide-react";
 import { generateSlug } from "~/lib/helpers/slug";
 
 const translations = {
   en: enTranslations,
   vi: viTranslations,
-};
-
-type Category = {
-  id: number;
-  name: string;
 };
 
 type MediaFile = {
@@ -68,19 +63,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     throw redirect("/user");
   }
 
-  // Get all categories
-  const { data: categories, error: categoriesError } = await supabase.client
-    .from("tara_categories")
-    .select("*")
-    .order("name", { ascending: true });
-
-  if (categoriesError) {
-    throw new Error("Failed to fetch categories");
-  }
-
   // Get all media files
   const { data: media, error: mediaError } = await supabase.client.storage
-    .from("taramind")
+    .from("post-medias")
     .list();
 
   if (mediaError) {
@@ -93,7 +78,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ 
     user, 
     profile,
-    categories,
     media,
     locale,
     t: translations[locale].admin,
@@ -107,9 +91,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   let slug = formData.get("slug") as string;
   const post_type = formData.get("post_type") as string;
   const body = formData.get("body") as string;
-  const category_id = formData.get("category_id") as string;
   const featured_image = formData.get("featured_image") as string;
   const published_at = formData.get("published_at") as string;
+  const order_index = parseInt(formData.get("order_index") as string) || 0;
+
+  // Get user for created_by
+  const user = await getUser(request);
+  if (!user) {
+    return json({ error: "User not found" });
+  }
 
   // Generate slug from title if empty
   if (!slug) {
@@ -118,35 +108,35 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const supabase = createSupabaseServerClient(request);
 
-  // Create new post
-  const { error } = await supabase.client.from("tara_posts").insert({
+  // Create new post post (post with category_id = 2)
+  const { error } = await supabase.client.from("posts").insert({
     title,
     slug,
     post_type,
     body,
-    category_id: category_id === "none" ? null : parseInt(category_id),
+    category_id: 2, // Set category_id to 2 for post posts
     featured_image,
     published_at: published_at || null,
     created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
+    updated_at: new Date().toISOString(),
+    order_index,
+    created_by: user.id,
   });
 
-  console.log(error);
-
   if (error) {
-    return json({ error: "Failed to create post" });
+    return json({ error: "Failed to create post post" });
   }
 
   return redirect("/admin/posts");
 };
 
 export default function CreatePost() {
-  const { user, profile, categories, media, locale, t, supabaseUrl } =
+  const { user, profile, media, locale, t, supabaseUrl } =
     useLoaderData<typeof loader>();
   const [isImageDialogOpen, setIsImageDialogOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [slug, setSlug] = useState<string>("");
-  const [editorData, setEditorData] = useState<OutputData>();
+  const [content, setContent] = useState<string>("");
   const submit = useSubmit();
 
   const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,17 +154,8 @@ export default function CreatePost() {
       formData.set("slug", generateSlug(title));
     }
 
-    // Add editor data to form
-    if (editorData) {
-      formData.set("body", JSON.stringify(editorData));
-    } else {
-      // If no editor data, set empty content
-      formData.set("body", JSON.stringify({
-        time: Date.now(),
-        blocks: [],
-        version: "2.24.3"
-      }));
-    }
+    // Add editor content to form
+    formData.set("body", content);
     
     submit(formData, { method: "post" });
   };
@@ -198,15 +179,15 @@ export default function CreatePost() {
           <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
             <div>
               <h1 className="text-2xl md:text-3xl font-bold">
-                Create New Post
+                Create New post Post
               </h1>
               <p className="text-sm md:text-base text-muted-foreground mt-1">
-                Create a new post with rich content
+                Create a new post post with rich content
               </p>
             </div>
           </div>
 
-          {/* Create Post Form */}
+          {/* Create post Form */}
           <div className="bg-card rounded-lg border shadow-sm">
             <div className="p-4 sm:p-6">
               <Form method="post" className="space-y-6" onSubmit={handleSubmit}>
@@ -232,39 +213,17 @@ export default function CreatePost() {
                   </div>
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="post_type">Post Type</Label>
-                    <Select name="post_type" required>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select post type" />
-                      </SelectTrigger>
-                      <SelectContent className="z-[100] bg-white dark:bg-gray-950 border shadow-lg">
-                        <SelectItem value="article">Article</SelectItem>
-                        <SelectItem value="news">News</SelectItem>
-                        <SelectItem value="page">Page</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="category_id">Category</Label>
-                    <Select name="category_id">
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select category" />
-                      </SelectTrigger>
-                      <SelectContent className="z-[100] bg-white dark:bg-gray-950 border shadow-lg">
-                        <SelectItem value="none">None</SelectItem>
-                        {categories.map((category: Category) => (
-                          <SelectItem
-                            key={category.id}
-                            value={category.id.toString()}
-                          >
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                <div className="space-y-2">
+                  <Label htmlFor="post_type">Post Type</Label>
+                  <Select name="post_type" required>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select post type" />
+                    </SelectTrigger>
+                    <SelectContent className="z-[100] bg-white dark:bg-gray-950 border shadow-lg">
+                      <SelectItem value="post">post Post</SelectItem>
+                      <SelectItem value="article">Article</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-2">
@@ -278,11 +237,22 @@ export default function CreatePost() {
                       Select Image
                     </Button>
                     {selectedImage && (
-                      <img
-                        src={selectedImage}
-                        alt="Featured"
-                        className="h-20 w-20 object-cover rounded"
-                      />
+                      <div className="relative">
+                        <img
+                          src={selectedImage}
+                          alt="Featured"
+                          className="h-20 w-20 object-cover rounded"
+                        />
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="icon"
+                          className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
+                          onClick={() => setSelectedImage("")}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
                     )}
                   </div>
                   <input
@@ -303,14 +273,21 @@ export default function CreatePost() {
                 </div>
 
                 <div className="space-y-2">
+                  <Label htmlFor="order_index">Order Index</Label>
+                  <Input
+                    id="order_index"
+                    name="order_index"
+                    type="number"
+                    className="w-full"
+                    defaultValue="0"
+                  />
+                </div>
+
+                <div className="space-y-2">
                   <Label>Content</Label>
                   <RichTextEditor 
-                    onChange={setEditorData} 
-                    initialData={{
-                      time: Date.now(),
-                      blocks: [],
-                      version: "2.24.3"
-                    }}
+                    value={content}
+                    onChange={setContent}
                   />
                 </div>
 
@@ -318,7 +295,7 @@ export default function CreatePost() {
                   <Button variant="outline" asChild>
                     <Link to="/admin/posts">Cancel</Link>
                   </Button>
-                  <Button type="submit">Create Post</Button>
+                  <Button type="submit">Create post Post</Button>
                 </div>
               </Form>
             </div>
@@ -335,4 +312,4 @@ export default function CreatePost() {
       />
     </div>
   );
-}
+} 

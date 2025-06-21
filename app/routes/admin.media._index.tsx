@@ -55,7 +55,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   // Get all media files
   const { data: media, error: mediaError } = await supabase.client.storage
-    .from("taramind")
+    .from("post-medias")
     .list();
 
   if (mediaError) {
@@ -84,7 +84,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   if (action === "delete") {
     const { error } = await supabase.client.storage
-      .from("taramind")
+      .from("post-medias")
       .remove([mediaId]);
 
     if (error) {
@@ -133,7 +133,7 @@ export default function AdminMedia() {
                     <CardContent className="p-2">
                       <div className="aspect-square relative rounded-md overflow-hidden">
                         <img
-                          src={`${supabaseUrl}/storage/v1/object/public/taramind/${file.name}`}
+                          src={`${supabaseUrl}/storage/v1/object/public/post-medias/${file.name}`}
                           alt={file.name}
                           className="w-full h-full object-cover"
                         />

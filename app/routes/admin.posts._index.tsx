@@ -23,7 +23,7 @@ const translations = {
   vi: viTranslations,
 };
 
-type TaraPost = {
+type Post = {
   id: number;
   title: string;
   slug: string;
@@ -34,6 +34,10 @@ type TaraPost = {
   publish_at: string;
   featured_image: string;
   category_id: number;
+  order_index: number;
+  created_by: string;
+  profiles: { name: string } | null;
+  categories: { name: string } | null;
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -65,19 +69,23 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     throw redirect("/user");
   }
 
-  // Get all tara_posts
+  // Get all posts
   const { data: posts, error: postsError } = await supabase.client
-    .from('tara_posts')
+    .from('posts')
     .select(`
       *,
-      tara_categories (
+      categories (
         id,
+        name
+      ),
+      profiles (
         name
       )
     `)
     .order('created_at', { ascending: false });
 
   if (postsError) {
+    console.error('Failed to fetch posts', postsError);
     throw new Error('Failed to fetch posts');
   }
 
@@ -102,7 +110,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const supabase = createSupabaseServerClient(request);
 
     const { error } = await supabase.client
-      .from("tara_posts")
+      .from("posts")
       .delete()
       .eq("id", postId);
 
@@ -153,6 +161,7 @@ export default function AdminPosts() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Title</TableHead>
+                      <TableHead>Author</TableHead>
                       <TableHead>Type</TableHead>
                       <TableHead>Category</TableHead>
                       <TableHead>Created</TableHead>
@@ -161,11 +170,12 @@ export default function AdminPosts() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {posts.map((post: TaraPost & { tara_categories: { name: string } }) => (
+                    {posts.map((post) => (
                       <TableRow key={post.id}>
                         <TableCell className="font-medium">{post.title}</TableCell>
+                        <TableCell>{post.profiles?.name || '-'}</TableCell>
                         <TableCell>{post.post_type}</TableCell>
-                        <TableCell>{post.tara_categories?.name || '-'}</TableCell>
+                        <TableCell>{post.categories?.name || '-'}</TableCell>
                         <TableCell>{new Date(post.created_at).toLocaleDateString()}</TableCell>
                         <TableCell>
                           {post.publish_at 
@@ -205,16 +215,19 @@ export default function AdminPosts() {
 
               {/* Mobile Cards */}
               <div className="md:hidden space-y-4">
-                {posts.map((post: TaraPost & { tara_categories: { name: string } }) => (
+                {posts.map((post) => (
                   <Card key={post.id}>
                     <CardContent className="p-4 space-y-3">
                       <div className="space-y-1">
                         <div className="font-medium">{post.title}</div>
                         <div className="text-sm text-muted-foreground">
+                          Author: {post.profiles?.name || '-'}
+                        </div>
+                        <div className="text-sm text-muted-foreground">
                           Type: {post.post_type}
                         </div>
                         <div className="text-sm text-muted-foreground">
-                          Category: {post.tara_categories?.name || '-'}
+                          Category: {post.categories?.name || '-'}
                         </div>
                         <div className="text-sm text-muted-foreground">
                           Created: {new Date(post.created_at).toLocaleDateString()}

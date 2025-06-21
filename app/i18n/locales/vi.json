@@ -43,6 +43,11 @@
         "all": "Tất Cả Blog",
         "create": "Tạo Blog"
       },
+      "posts": {
+        "title": "Bài viết",
+        "all": "Tất cả Bài viết",
+        "create": "Tạo Bài viết"
+      },
       "users": {
         "title": "Người Dùng",
         "all": "Tất Cả Người Dùng"
@@ -65,8 +70,9 @@
       "logout": "Đăng Xuất"
     },
     "descriptions": {
-      "pages": "Quản lý tất cả các trang và nội dung",
-      "blogs": "Quản lý tất cả bài viết blog và nội dung",
+      "pages": "Quản lý tất cả các trang và nội dung của chúng.",
+      "blogs": "Quản lý tất cả các bài blog và nội dung của chúng.",
+      "posts": "Quản lý tất cả các bài viết và nội dung của chúng.",
       "users": "Quản lý tài khoản người dùng và vai trò",
       "categories": "Quản lý danh mục nội dung",
       "comments": "Quản lý bình luận trên trang web",

@@ -17,30 +17,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { useState, useEffect } from "react";
-import { RichTextEditor } from "~/components/editor/rich-text-editor";
+import { useState } from "react";
+import RichTextEditor from "~/components/RichTextEditor";
 import { ImageSelector } from "~/components/editor/image-selector";
-import type { OutputData } from "@editorjs/editorjs";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "~/components/ui/alert-dialog";
+import { X } from "lucide-react";
 
 const translations = {
   en: enTranslations,
   vi: viTranslations,
-};
-
-type Category = {
-  id: number;
-  name: string;
 };
 
 type MediaFile = {
@@ -58,6 +42,7 @@ type Post = {
   category_id: number | null;
   featured_image: string | null;
   published_at: string | null;
+  order_index: number | null;
 };
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
@@ -91,28 +76,19 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
   // Get post data
   const { data: post, error: postError } = await supabase.client
-    .from("tara_posts")
+    .from("posts")
     .select("*")
     .eq("id", params.id)
+    .eq("category_id", 2) // Ensure it's a post post
     .single();
 
   if (postError || !post) {
-    throw new Error("Post not found");
-  }
-
-  // Get all categories
-  const { data: categories, error: categoriesError } = await supabase.client
-    .from("tara_categories")
-    .select("*")
-    .order("name", { ascending: true });
-
-  if (categoriesError) {
-    throw new Error("Failed to fetch categories");
+    throw new Error("Post post not found");
   }
 
   // Get all media files
   const { data: media, error: mediaError } = await supabase.client.storage
-    .from("taramind")
+    .from("post-medias")
     .list();
 
   if (mediaError) {
@@ -126,7 +102,6 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     user,
     profile,
     post,
-    categories,
     media,
     locale,
     t: translations[locale].admin,
@@ -142,12 +117,13 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   if (intent === "delete") {
     const supabase = createSupabaseServerClient(request);
     const { error } = await supabase.client
-      .from("tara_posts")
+      .from("posts")
       .delete()
-      .eq("id", params.id);
+      .eq("id", params.id)
+      .eq("category_id", 2); // Ensure it's a post post
 
     if (error) {
-      return json({ error: "Failed to delete post" });
+      return json({ error: "Failed to delete post post" });
     }
 
     return redirect("/admin/posts");
@@ -158,9 +134,9 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   let slug = formData.get("slug") as string;
   const post_type = formData.get("post_type") as string;
   const body = formData.get("body") as string;
-  const category_id = formData.get("category_id") as string;
   const featured_image = formData.get("featured_image") as string;
   const published_at = formData.get("published_at") as string;
+  const order_index = parseInt(formData.get("order_index") as string) || 0;
 
   // Generate slug from title if empty
   if (!slug) {
@@ -172,51 +148,40 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 
   const supabase = createSupabaseServerClient(request);
 
-  // Update post
+  // Update post post
   const { error } = await supabase.client
-    .from("tara_posts")
+    .from("posts")
     .update({
       title,
       slug,
       post_type,
       body,
-      category_id: category_id === "none" ? null : parseInt(category_id),
+      category_id: 2, // Ensure it stays a post post
       featured_image,
       published_at: published_at || null,
       updated_at: new Date().toISOString(),
+      order_index,
     })
-    .eq("id", params.id);
+    .eq("id", params.id)
+    .eq("category_id", 2); // Ensure it's a post post
 
   if (error) {
-    return json({ error: "Failed to update post" });
+    return json({ error: "Failed to update post post" });
   }
 
   return redirect("/admin/posts");
 };
 
 export default function EditPost() {
-  const { user, profile, post, categories, media, locale, t, supabaseUrl } =
+  const { user, profile, post, media, locale, t, supabaseUrl } =
     useLoaderData<typeof loader>();
   const [isImageDialogOpen, setIsImageDialogOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string>(
     post.featured_image || ""
   );
   const [slug, setSlug] = useState<string>(post.slug);
-  const [editorData, setEditorData] = useState<OutputData>();
+  const [content, setContent] = useState<string>(post.body);
   const submit = useSubmit();
-
-  console.log("++++ editorData", editorData);
-
-  // Initialize editor with post content
-  useEffect(() => {
-    try {
-      const content = JSON.parse(post.body);
-      console.log("++++ content", content);
-      setEditorData(content);
-    } catch (error) {
-      console.error("Failed to parse post content:", error);
-    }
-  }, [post.body]);
 
   const generateSlug = (title: string) => {
     return title
@@ -240,10 +205,8 @@ export default function EditPost() {
       formData.set("slug", generateSlug(title));
     }
 
-    // Add editor data to form
-    if (editorData) {
-      formData.set("body", JSON.stringify(editorData));
-    }
+    // Add editor content to form
+    formData.set("body", content);
 
     submit(formData, { method: "post" });
   };
@@ -266,9 +229,9 @@ export default function EditPost() {
           {/* Header Section */}
           <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold">Edit Post</h1>
+              <h1 className="text-2xl md:text-3xl font-bold">Edit Post Post</h1>
               <p className="text-sm md:text-base text-muted-foreground mt-1">
-                Edit post content and settings
+                Edit post post content and settings
               </p>
             </div>
           </div>
@@ -300,46 +263,21 @@ export default function EditPost() {
                   </div>
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="post_type">Post Type</Label>
-                    <Select
-                      name="post_type"
-                      required
-                      defaultValue={post.post_type}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select post type" />
-                      </SelectTrigger>
-                      <SelectContent className="z-[100] bg-white dark:bg-gray-950 border shadow-lg">
-                        <SelectItem value="article">Article</SelectItem>
-                        <SelectItem value="news">News</SelectItem>
-                        <SelectItem value="page">Page</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="category_id">Category</Label>
-                    <Select
-                      name="category_id"
-                      defaultValue={post.category_id?.toString() || "none"}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select category" />
-                      </SelectTrigger>
-                      <SelectContent className="z-[100] bg-white dark:bg-gray-950 border shadow-lg">
-                        <SelectItem value="none">None</SelectItem>
-                        {categories.map((category: Category) => (
-                          <SelectItem
-                            key={category.id}
-                            value={category.id.toString()}
-                          >
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                <div className="space-y-2">
+                  <Label htmlFor="post_type">Post Type</Label>
+                  <Select
+                    name="post_type"
+                    required
+                    defaultValue={post.post_type}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select post type" />
+                    </SelectTrigger>
+                    <SelectContent className="z-[100] bg-white dark:bg-gray-950 border shadow-lg">
+                      <SelectItem value="post">Post Post</SelectItem>
+                      <SelectItem value="article">Article</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-2">
@@ -353,11 +291,22 @@ export default function EditPost() {
                       Select Image
                     </Button>
                     {selectedImage && (
-                      <img
-                        src={selectedImage}
-                        alt="Featured"
-                        className="h-20 w-20 object-cover rounded"
-                      />
+                      <div className="relative">
+                        <img
+                          src={selectedImage}
+                          alt="Featured"
+                          className="h-20 w-20 object-cover rounded"
+                        />
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="icon"
+                          className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
+                          onClick={() => setSelectedImage("")}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
                     )}
                   </div>
                   <input
@@ -383,13 +332,22 @@ export default function EditPost() {
                 </div>
 
                 <div className="space-y-2">
+                  <Label htmlFor="order_index">Order Index</Label>
+                  <Input
+                    id="order_index"
+                    name="order_index"
+                    type="number"
+                    className="w-full"
+                    defaultValue={post.order_index || 0}
+                  />
+                </div>
+
+                <div className="space-y-2">
                   <Label>Content</Label>
-                  {editorData && (
-                    <RichTextEditor
-                      onChange={setEditorData}
-                      initialData={editorData}
-                    />
-                  )}
+                  <RichTextEditor
+                    value={content}
+                    onChange={setContent}
+                  />
                 </div>
 
                 <div className="flex justify-between gap-4">
@@ -397,8 +355,22 @@ export default function EditPost() {
                     <Button variant="outline" asChild>
                       <Link to="/admin/posts">Cancel</Link>
                     </Button>
-                    <Button type="submit">Update Post</Button>
+                    <Button type="submit">Update Post Post</Button>
                   </div>
+                  <Form method="post">
+                    <input type="hidden" name="intent" value="delete" />
+                    <Button
+                      variant="destructive"
+                      type="submit"
+                      onClick={(e) => {
+                        if (!confirm('Are you sure you want to delete this post post?')) {
+                          e.preventDefault();
+                        }
+                      }}
+                    >
+                      Delete Post Post
+                    </Button>
+                  </Form>
                 </div>
               </Form>
             </div>
@@ -415,4 +387,4 @@ export default function EditPost() {
       />
     </div>
   );
-}
+} 

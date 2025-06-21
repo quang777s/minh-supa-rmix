@@ -88,7 +88,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
   // Get all media files
   const { data: media, error: mediaError } = await supabase.client.storage
-    .from("taramind")
+    .from("post-medias")
     .list();
 
   if (mediaError) {
@@ -117,7 +117,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   if (intent === "delete") {
     const supabase = createSupabaseServerClient(request);
     const { error } = await supabase.client
-      .from("tara_posts")
+      .from("posts")
       .delete()
       .eq("id", params.id)
       .eq("category_id", 1); // Ensure it's a page
@@ -150,7 +150,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 
   // Update page
   const { error } = await supabase.client
-    .from("tara_posts")
+    .from("posts")
     .update({
       title,
       slug,
