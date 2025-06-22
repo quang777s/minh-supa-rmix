@@ -14,7 +14,7 @@ export function LanguageSwitcher({ currentLocale }: { currentLocale: string }) {
           variant={currentLocale === locale ? "default" : "outline"}
           size="sm"
         >
-          {locale.toUpperCase()}
+          {locale === "vi" ? "VI" : "EN"}
         </Button>
       ))}
     </Form>

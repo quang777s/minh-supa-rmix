@@ -14,7 +14,7 @@ import "~/styles/rich-text-editor.css";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
-  { rel: "icon", type: "image/png", href: "/favicon-32x32.png" },
+  { rel: "icon", type: "image/png", href: "/favicon.ico" },
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
