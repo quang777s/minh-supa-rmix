@@ -71,8 +71,14 @@ export default function Index() {
       <header className="bg-white shadow-sm py-4 sticky top-0 z-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <a href="/" className="flex items-center rounded-lg">
-            <img src="/blue-logo640.png" alt={(t?.landing?.logo?.alt || 'Logo') + ''} className="h-10 w-auto mr-2" />
-            <div className="text-2xl lg:text-2xl font-bold text-indigo-900">Duy Minh</div>
+            <img
+              src="/blue-logo640.png"
+              alt={(t?.landing?.logo?.alt || "Logo") + ""}
+              className="h-10 w-auto mr-2"
+            />
+            <div className="text-2xl lg:text-2xl font-bold text-indigo-950">
+              Duy Minh
+            </div>
           </a>
           <nav className="hidden md:flex space-x-8">
             <a
@@ -130,8 +136,19 @@ export default function Index() {
               aria-label={t?.landing?.menu?.close || "Close menu"}
               onClick={() => setMobileMenuOpen(false)}
             >
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
             <a
@@ -163,11 +180,13 @@ export default function Index() {
         <section className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-20 sm:py-32 lg:py-40 text-center rounded-b-lg">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-              {locale === "vi" ? "Tầm nhìn của bạn, mã nguồn của chúng tôi." : "Your Vision, Our Code."}
+              {locale === "vi"
+                ? "Kiến Tạo Từ Ý Tưởng."
+                : "Your Vision, Our Code."}
             </h1>
             <p className="text-lg sm:text-xl lg:text-2xl mb-10 max-w-3xl mx-auto opacity-90">
               {locale === "vi"
-                ? "Trao quyền cho doanh nghiệp, nhóm và cá nhân với các website ấn tượng, chức năng và được cá nhân hóa."
+                ? "Website độc đáo, tính năng hoàn hảo – Nâng tầm giá trị cho bạn."
                 : "Empowering businesses, groups, and individuals with stunning, functional, and custom-tailored websites."}
             </p>
             <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
@@ -212,7 +231,9 @@ export default function Index() {
         <section id="services" className="py-16 sm:py-24 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 text-gray-900">
-              {locale === "vi" ? "Dịch vụ web của chúng tôi" : "Our Comprehensive Web Services"}
+              {locale === "vi"
+                ? "Dịch vụ web của chúng tôi"
+                : "Our Comprehensive Web Services"}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
               <div className="bg-gray-50 p-8 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300">
@@ -260,7 +281,9 @@ export default function Index() {
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                  {locale === "vi" ? "Bảo trì trang web" : "Website Maintenance"}
+                  {locale === "vi"
+                    ? "Bảo trì trang web"
+                    : "Website Maintenance"}
                 </h3>
                 <p className="text-gray-600">
                   {locale === "vi"
@@ -293,7 +316,9 @@ export default function Index() {
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                  {locale === "vi" ? "Tùy chỉnh trang web" : "Website Customization"}
+                  {locale === "vi"
+                    ? "Tùy chỉnh trang web"
+                    : "Website Customization"}
                 </h3>
                 <p className="text-gray-600">
                   {locale === "vi"
@@ -330,7 +355,9 @@ export default function Index() {
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-2 text-gray-800">
-                    {locale === "vi" ? "Giải pháp được thiết kế riêng" : "Tailored Solutions"}
+                    {locale === "vi"
+                      ? "Giải pháp được thiết kế riêng"
+                      : "Tailored Solutions"}
                   </h3>
                   <p className="text-gray-600">
                     {locale === "vi"
@@ -386,7 +413,9 @@ export default function Index() {
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-2 text-gray-800">
-                    {locale === "vi" ? "Hỗ trợ đáng tin cậy" : "Reliable Support"}
+                    {locale === "vi"
+                      ? "Hỗ trợ đáng tin cậy"
+                      : "Reliable Support"}
                   </h3>
                   <p className="text-gray-600">
                     {locale === "vi"
@@ -414,7 +443,9 @@ export default function Index() {
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-2 text-gray-800">
-                    {locale === "vi" ? "Giải pháp có hiệu quả chi phí" : "Cost-Effective Solutions"}
+                    {locale === "vi"
+                      ? "Giải pháp có hiệu quả chi phí"
+                      : "Cost-Effective Solutions"}
                   </h3>
                   <p className="text-gray-600">
                     {locale === "vi"
@@ -430,7 +461,9 @@ export default function Index() {
         <section className="py-16 sm:py-24 text-center bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-t-lg">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-              {locale === "vi" ? "Sẵn sàng chuyển đổi vẻ ngoài trực tuyến của bạn?" : "Ready to Transform Your Online Presence?"}
+              {locale === "vi"
+                ? "Sẵn sàng chuyển đổi vẻ ngoài trực tuyến của bạn?"
+                : "Ready to Transform Your Online Presence?"}
             </h2>
             <p className="text-lg sm:text-xl mb-10 opacity-90 max-w-2xl mx-auto">
               {locale === "vi"
@@ -469,7 +502,9 @@ export default function Index() {
               <div className="space-y-6">
                 <div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                    {locale === "vi" ? "Liên hệ với chúng tôi:" : "Connect with us:"}
+                    {locale === "vi"
+                      ? "Liên hệ với chúng tôi:"
+                      : "Connect with us:"}
                   </h3>
                   <p className="text-gray-600 flex items-center">
                     <svg
@@ -531,13 +566,17 @@ export default function Index() {
                         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                       ></path>
                     </svg>
-                    {locale === "vi" ? "123 Đường Web, Tầng 400, Thành phốville, ST 12345" : "123 Web Street, Suite 400, Cityville, ST 12345"}
+                    {locale === "vi"
+                      ? "123 Đường Web, Tầng 400, Thành phốville, ST 12345"
+                      : "123 Web Street, Suite 400, Cityville, ST 12345"}
                   </p>
                 </div>
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                  {locale === "vi" ? "Gửi cho chúng tôi một tin nhắn:" : "Send us a message:"}
+                  {locale === "vi"
+                    ? "Gửi cho chúng tôi một tin nhắn:"
+                    : "Send us a message:"}
                 </h3>
                 <Form method="post" className="space-y-4">
                   <div>
@@ -552,7 +591,9 @@ export default function Index() {
                       id="name"
                       name="name"
                       className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder={locale === "vi" ? "Tên của bạn" : "Your Name"}
+                      placeholder={
+                        locale === "vi" ? "Tên của bạn" : "Your Name"
+                      }
                       required
                     />
                   </div>
@@ -568,7 +609,11 @@ export default function Index() {
                       id="email"
                       name="email"
                       className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder={locale === "vi" ? "your@example.com" : "your@example.com"}
+                      placeholder={
+                        locale === "vi"
+                          ? "your@example.com"
+                          : "your@example.com"
+                      }
                       required
                     />
                   </div>
@@ -584,7 +629,11 @@ export default function Index() {
                       name="message"
                       rows={4}
                       className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder={locale === "vi" ? "Nói về dự án của bạn..." : "Tell us about your project..."}
+                      placeholder={
+                        locale === "vi"
+                          ? "Nói về dự án của bạn..."
+                          : "Tell us about your project..."
+                      }
                       required
                     ></textarea>
                   </div>
