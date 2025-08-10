@@ -68,15 +68,15 @@ export default function Index() {
       style={{ fontFamily: "'Inter', sans-serif" }}
       className="antialiased bg-gray-900 text-gray-100 min-h-screen"
     >
-      <header className="bg-gray-800/80 backdrop-blur-md border-b border-gray-700 py-4 sticky top-0 z-50">
+      <header className="bg-gray-900/95 backdrop-blur-lg border-b border-gray-800 py-5 sticky top-0 z-50 transition-all duration-300 hover:border-purple-500">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <a href="/" className="flex items-center group">
+          <a href="/" className="flex items-center group space-x-3">
             <img
               src="/dm640.png"
               alt={(t?.landing?.logo?.alt || "Logo") + ""}
-              className="h-12 w-auto mr-3 transition-transform duration-300 group-hover:rotate-12"
+              className="h-14 w-auto transition-transform duration-500 group-hover:rotate-[360deg]"
             />
-            <div className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <div className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent animate-gradient">
               Duy Minh
             </div>
           </a>
@@ -273,17 +273,17 @@ export default function Index() {
       )}
 
       <main>
-        <section className="relative py-24 sm:py-32 lg:py-40 text-center overflow-hidden">
+        <section className="relative py-32 sm:py-40 lg:py-48 text-center overflow-hidden">
           <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-[url('/public/galaxy.jpg')] bg-cover bg-center opacity-20" />
-            <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent" />
+            <div className="absolute inset-0 bg-[url('/public/starfield.jpg')] bg-cover bg-center opacity-30 animate-pulse-slow" />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/80 to-transparent" />
           </div>
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <div className="max-w-4xl mx-auto">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-8 leading-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <div className="max-w-5xl mx-auto">
+              <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black mb-8 leading-tight bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x">
                 {locale === "vi"
-                  ? "Sáng Tạo Không Giới Hạn"
-                  : "Boundless Digital Innovation"}
+                  ? "Kiến Tạo Tương Lai Số"
+                  : "Crafting Digital Futures"}
               </h1>
               <p className="text-xl sm:text-2xl lg:text-3xl mb-12 text-gray-300">
                 {locale === "vi"
@@ -370,12 +370,12 @@ export default function Index() {
               {locale === "vi" ? "Dịch Vụ Của Chúng Tôi" : "Our Services"}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="group relative bg-gray-700/30 p-8 rounded-2xl backdrop-blur-lg border border-gray-600 hover:border-blue-400 transition-all duration-300 hover:-translate-y-2">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
-                <div className="relative">
-                  <div className="w-20 h-20 bg-gray-800 rounded-xl flex items-center justify-center mb-6 mx-auto">
+              <div className="group relative bg-gray-700/20 p-8 rounded-3xl border-2 border-gray-600 hover:border-purple-400 transition-all duration-500 hover:-translate-y-3">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl" />
+                <div className="relative space-y-6">
+                  <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6 mx-auto transform group-hover:rotate-12 transition-transform duration-500">
                     <svg
-                      className="w-10 h-10 text-blue-400"
+                      className="w-12 h-12 text-white"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -384,17 +384,17 @@ export default function Index() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="2"
-                        d="M9.75 17L9 20l-1 1h8l-1-1l-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
                       />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-100 mb-4">
+                  <h3 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
                     {locale === "vi" ? "Thiết Kế Web" : "Web Design"}
                   </h3>
-                  <p className="text-gray-400 leading-relaxed">
+                  <p className="text-gray-300 leading-relaxed text-lg">
                     {locale === "vi"
-                      ? "Thiết kế website chuyên nghiệp, hiện đại với trải nghiệm người dùng tối ưu"
-                      : "Modern, responsive web design with optimal user experience"}
+                      ? "Giải pháp thiết kế web đáp ứng mọi màn hình, tối ưu tốc độ và trải nghiệm người dùng"
+                      : "Responsive web solutions optimized for speed and seamless user experiences"}
                   </p>
                 </div>
               </div>
@@ -647,9 +647,12 @@ export default function Index() {
           </div>
         </section>
 
-        <section id="contact" className="py-16 sm:py-24 bg-gray-800">
+        <section
+          id="contact"
+          className="py-16 sm:py-24 bg-gradient-to-br from-gray-900 to-gray-800"
+        >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-            <div className="bg-gray-900 rounded-3xl p-8 sm:p-12 lg:p-16 shadow-2xl">
+            <div className="bg-gray-900/80 backdrop-blur-xl rounded-3xl p-8 sm:p-12 lg:p-16 shadow-2xl border border-gray-700/50">
               <h2 className="text-4xl sm:text-5xl font-bold text-center mb-12 text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text">
                 {locale === "vi" ? "Liên Hệ" : "Contact Us"}
               </h2>
