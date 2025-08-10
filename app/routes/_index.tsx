@@ -294,6 +294,21 @@ export default function Index() {
                 <a
                   href="#contact"
                   className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl hover:scale-105 transition-transform duration-300 shadow-lg shadow-blue-500/30"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    requestAnimationFrame(() => {
+                      const header = document.querySelector("header");
+                      const el = document.getElementById("contact");
+                      if (el && header) {
+                        const headerHeight = header.offsetHeight;
+                        const yOffset =
+                          el.getBoundingClientRect().top +
+                          window.pageYOffset -
+                          headerHeight;
+                        window.scrollTo({ top: yOffset, behavior: "smooth" });
+                      }
+                    });
+                  }}
                 >
                   <svg
                     className="w-6 h-6 mr-3"
@@ -313,6 +328,21 @@ export default function Index() {
                 <a
                   href="#services"
                   className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-gray-100 border-2 border-gray-600 rounded-xl hover:border-blue-400 hover:text-blue-400 transition-colors duration-300"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    requestAnimationFrame(() => {
+                      const header = document.querySelector("header");
+                      const el = document.getElementById("services");
+                      if (el && header) {
+                        const headerHeight = header.offsetHeight;
+                        const yOffset =
+                          el.getBoundingClientRect().top +
+                          window.pageYOffset -
+                          headerHeight;
+                        window.scrollTo({ top: yOffset, behavior: "smooth" });
+                      }
+                    });
+                  }}
                 >
                   <svg
                     className="w-6 h-6 mr-3"
@@ -582,6 +612,21 @@ export default function Index() {
             <a
               href="#contact"
               className={`${btnSecondaryClasses} !bg-white !text-indigo-600 hover:!bg-indigo-50 !border-indigo-600`}
+              onClick={(e) => {
+                e.preventDefault();
+                requestAnimationFrame(() => {
+                  const header = document.querySelector("header");
+                  const el = document.getElementById("contact");
+                  if (el && header) {
+                    const headerHeight = header.offsetHeight;
+                    const yOffset =
+                      el.getBoundingClientRect().top +
+                      window.pageYOffset -
+                      headerHeight;
+                    window.scrollTo({ top: yOffset, behavior: "smooth" });
+                  }
+                });
+              }}
             >
               <svg
                 className="inline-block w-6 h-6 align-middle mr-2"
