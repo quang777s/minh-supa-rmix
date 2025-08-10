@@ -66,17 +66,17 @@ export default function Index() {
   return (
     <div
       style={{ fontFamily: "'Inter', sans-serif" }}
-      className="antialiased bg-slate-50 text-slate-700"
+      className="antialiased bg-gray-900 text-gray-100 min-h-screen"
     >
-      <header className="bg-white shadow-sm py-4 sticky top-0 z-50">
+      <header className="bg-gray-800/80 backdrop-blur-md border-b border-gray-700 py-4 sticky top-0 z-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <a href="/" className="flex items-center rounded-lg">
+          <a href="/" className="flex items-center group">
             <img
-              src="/blue-logo640.png"
+              src="/dm640.png"
               alt={(t?.landing?.logo?.alt || "Logo") + ""}
-              className="h-10 w-auto mr-2"
+              className="h-12 w-auto mr-3 transition-transform duration-300 group-hover:rotate-12"
             />
-            <div className="text-2xl lg:text-2xl font-bold text-indigo-950">
+            <div className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
               Duy Minh
             </div>
           </a>
@@ -84,24 +84,69 @@ export default function Index() {
             <a
               href="#services"
               className="text-gray-600 hover:text-indigo-600 font-medium rounded-lg px-3 py-2"
+              onClick={(e) => {
+                e.preventDefault();
+                requestAnimationFrame(() => {
+                  const header = document.querySelector("header");
+                  const el = document.getElementById("services");
+                  if (el && header) {
+                    const headerHeight = header.offsetHeight;
+                    const yOffset =
+                      el.getBoundingClientRect().top +
+                      window.pageYOffset -
+                      headerHeight;
+                    window.scrollTo({ top: yOffset, behavior: "smooth" });
+                  }
+                });
+              }}
             >
               {locale === "vi" ? "Dịch vụ" : "Services"}
             </a>
             <a
               href="#benefits"
               className="text-gray-600 hover:text-indigo-600 font-medium rounded-lg px-3 py-2"
+              onClick={(e) => {
+                e.preventDefault();
+                requestAnimationFrame(() => {
+                  const header = document.querySelector("header");
+                  const el = document.getElementById("benefits");
+                  if (el && header) {
+                    const headerHeight = header.offsetHeight;
+                    const yOffset =
+                      el.getBoundingClientRect().top +
+                      window.pageYOffset -
+                      headerHeight;
+                    window.scrollTo({ top: yOffset, behavior: "smooth" });
+                  }
+                });
+              }}
             >
               {locale === "vi" ? "Tại sao chọn chúng tôi" : "Why Choose Us"}
             </a>
             <a
               href="#contact"
               className="text-gray-600 hover:text-indigo-600 font-medium rounded-lg px-3 py-2"
+              onClick={(e) => {
+                e.preventDefault();
+                requestAnimationFrame(() => {
+                  const header = document.querySelector("header");
+                  const el = document.getElementById("contact");
+                  if (el && header) {
+                    const headerHeight = header.offsetHeight;
+                    const yOffset =
+                      el.getBoundingClientRect().top +
+                      window.pageYOffset -
+                      headerHeight;
+                    window.scrollTo({ top: yOffset, behavior: "smooth" });
+                  }
+                });
+              }}
             >
               {locale === "vi" ? "Liên hệ" : "Contact"}
             </a>
           </nav>
           <div className="flex items-center gap-2">
-            <LanguageSwitcher currentLocale={locale} />
+            <LanguageSwitcher currentLocale={locale!} />
             <div className="md:hidden">
               <button
                 className="text-gray-600 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md p-2"
@@ -154,21 +199,72 @@ export default function Index() {
             <a
               href="#services"
               className="text-gray-700 hover:text-indigo-600 font-medium rounded-lg px-3 py-2"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => {
+                e.preventDefault();
+                setMobileMenuOpen(false);
+                setTimeout(() => {
+                  requestAnimationFrame(() => {
+                    const header = document.querySelector("header");
+                    const el = document.getElementById("services");
+                    if (el && header) {
+                      const headerHeight = header.offsetHeight;
+                      const yOffset =
+                        el.getBoundingClientRect().top +
+                        window.pageYOffset -
+                        headerHeight;
+                      window.scrollTo({ top: yOffset, behavior: "smooth" });
+                    }
+                  });
+                }, 150);
+              }}
             >
               {locale === "vi" ? "Dịch vụ" : "Services"}
             </a>
             <a
               href="#benefits"
               className="text-gray-700 hover:text-indigo-600 font-medium rounded-lg px-3 py-2"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => {
+                e.preventDefault();
+                setMobileMenuOpen(false);
+                setTimeout(() => {
+                  requestAnimationFrame(() => {
+                    const header = document.querySelector("header");
+                    const el = document.getElementById("benefits");
+                    if (el && header) {
+                      const headerHeight = header.offsetHeight;
+                      const yOffset =
+                        el.getBoundingClientRect().top +
+                        window.pageYOffset -
+                        headerHeight;
+                      window.scrollTo({ top: yOffset, behavior: "smooth" });
+                    }
+                  });
+                }, 150);
+              }}
             >
               {locale === "vi" ? "Tại sao chọn chúng tôi" : "Why Choose Us"}
             </a>
             <a
               href="#contact"
               className="text-gray-700 hover:text-indigo-600 font-medium rounded-lg px-3 py-2"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => {
+                e.preventDefault();
+                setMobileMenuOpen(false);
+                setTimeout(() => {
+                  requestAnimationFrame(() => {
+                    const header = document.querySelector("header");
+                    const el = document.getElementById("contact");
+                    if (el && header) {
+                      const headerHeight = header.offsetHeight;
+                      const yOffset =
+                        el.getBoundingClientRect().top +
+                        window.pageYOffset -
+                        headerHeight;
+                      window.scrollTo({ top: yOffset, behavior: "smooth" });
+                    }
+                  });
+                }, 150);
+              }}
             >
               {locale === "vi" ? "Liên hệ" : "Contact"}
             </a>
@@ -177,280 +273,293 @@ export default function Index() {
       )}
 
       <main>
-        <section className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-20 sm:py-32 lg:py-40 text-center rounded-b-lg">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-              {locale === "vi"
-                ? "Kiến Tạo Từ Ý Tưởng."
-                : "Your Vision, Our Code."}
-            </h1>
-            <p className="text-lg sm:text-xl lg:text-2xl mb-10 max-w-3xl mx-auto opacity-90">
-              {locale === "vi"
-                ? "Website độc đáo, tính năng hoàn hảo – Nâng tầm giá trị cho bạn."
-                : "Empowering businesses, groups, and individuals with stunning, functional, and custom-tailored websites."}
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-              <a href="#contact" className={btnPrimaryClasses}>
-                <svg
-                  className="inline-block w-6 h-6 align-middle mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  ></path>
-                </svg>
-                {locale === "vi" ? "Nhận báo giá miễn phí" : "Get a Free Quote"}
-              </a>
-              <a href="#services" className={btnSecondaryClasses}>
-                <svg
-                  className="inline-block w-6 h-6 align-middle mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m7 0V5a2 2 0 012-2h2a2 2 0 012 2v4m-4 0a2 2 0 002 2H9m7 0a2 2 0 01-2-2V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4"
-                  ></path>
-                </svg>
-                {locale === "vi" ? "Khám phá dịch vụ" : "Explore Services"}
-              </a>
-            </div>
+        <section className="relative py-24 sm:py-32 lg:py-40 text-center overflow-hidden">
+          <div className="absolute inset-0">
+            <div className="absolute inset-0 bg-[url('/public/galaxy.jpg')] bg-cover bg-center opacity-20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent" />
           </div>
-        </section>
-
-        <section id="services" className="py-16 sm:py-24 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 text-gray-900">
-              {locale === "vi"
-                ? "Dịch vụ web của chúng tôi"
-                : "Our Comprehensive Web Services"}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-              <div className="bg-gray-50 p-8 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300">
-                <div className="mx-auto text-indigo-600 mb-6 w-16 h-16 flex items-center justify-center rounded-full bg-indigo-100">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div className="max-w-4xl mx-auto">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-8 leading-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                {locale === "vi"
+                  ? "Sáng Tạo Không Giới Hạn"
+                  : "Boundless Digital Innovation"}
+              </h1>
+              <p className="text-xl sm:text-2xl lg:text-3xl mb-12 text-gray-300">
+                {locale === "vi"
+                  ? "Biến ý tưởng thành trải nghiệm số ấn tượng"
+                  : "Transforming ideas into exceptional digital experiences"}
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-6">
+                <a
+                  href="#contact"
+                  className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl hover:scale-105 transition-transform duration-300 shadow-lg shadow-blue-500/30"
+                >
                   <svg
-                    className="h-8 w-8"
+                    className="w-6 h-6 mr-3"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="2"
-                      d="M9.75 17L9 20l-1 1h8l-1-1l-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    ></path>
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
                   </svg>
-                </div>
-                <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                  {locale === "vi" ? "Tạo trang web" : "Website Creation"}
-                </h3>
-                <p className="text-gray-600">
-                  {locale === "vi"
-                    ? "Từ khái niệm đầu tiên đến khi triển khai, chúng tôi xây dựng các trang web phản hồi, hoạt động và đáp ứng được nhu cầu đặc biệt của bạn. Chúng tôi tập trung vào thiết kế hiện đại, chức năng bền vững và trải nghiệm người dùng đặc biệt."
-                    : "From initial concept to launch, we build responsive, high-performing websites tailored to your unique needs. We focus on modern design, robust functionality, and exceptional user experience."}
-                </p>
-              </div>
-
-              <div className="bg-gray-50 p-8 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300">
-                <div className="mx-auto text-purple-600 mb-6 w-16 h-16 flex items-center justify-center rounded-full bg-purple-100">
+                  {locale === "vi" ? "Bắt Đầu Dự Án" : "Start Your Project"}
+                </a>
+                <a
+                  href="#services"
+                  className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-gray-100 border-2 border-gray-600 rounded-xl hover:border-blue-400 hover:text-blue-400 transition-colors duration-300"
+                >
                   <svg
-                    className="h-8 w-8"
+                    className="w-6 h-6 mr-3"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="2"
-                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                    ></path>
+                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m7 0V5a2 2 0 012-2h2a2 2 0 012 2v4m-4 0a2 2 0 002 2H9m7 0a2 2 0 01-2-2V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4"
+                    />
                   </svg>
-                </div>
-                <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                  {locale === "vi"
-                    ? "Bảo trì trang web"
-                    : "Website Maintenance"}
-                </h3>
-                <p className="text-gray-600">
-                  {locale === "vi"
-                    ? "Giữ cho trang web của bạn an toàn, nhanh chóng và cập nhật đầy đủ với các gói bảo trì đầy đủ."
-                    : "Keep your site secure, fast, and up-to-date with our comprehensive maintenance packages. We handle updates, backups, security checks, and performance optimizations."}
-                </p>
-              </div>
-
-              <div className="bg-gray-50 p-8 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300">
-                <div className="mx-auto text-blue-600 mb-6 w-16 h-16 flex items-center justify-center rounded-full bg-blue-100">
-                  <svg
-                    className="h-8 w-8"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                    ></path>
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    ></path>
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                  {locale === "vi"
-                    ? "Tùy chỉnh trang web"
-                    : "Website Customization"}
-                </h3>
-                <p className="text-gray-600">
-                  {locale === "vi"
-                    ? "Nâng cấp trang web hiện có của bạn với các tính năng mới, tích hợp và cập nhật thiết kế."
-                    : "Enhance your existing website with new features, integrations, and design updates. We help your site evolve with your business needs and industry trends."}
-                </p>
+                  {locale === "vi" ? "Xem Dịch Vụ" : "View Services"}
+                </a>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="benefits" className="py-16 sm:py-24 bg-slate-100">
+        <section id="services" className="py-16 sm:py-24 bg-gray-800">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 text-gray-900">
-              {locale === "vi" ? "Tại sao chọn chúng tôi?" : "Why Choose Us?"}
+            <h2 className="text-4xl sm:text-5xl font-bold text-center mb-16 text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text">
+              {locale === "vi" ? "Dịch Vụ Của Chúng Tôi" : "Our Services"}
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
-              <div className="flex items-start bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                <div className="flex-shrink-0 text-indigo-600 mr-4 mt-1">
-                  <svg
-                    className="h-8 w-8"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 13l4 4L19 7"
-                    ></path>
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2 text-gray-800">
-                    {locale === "vi"
-                      ? "Giải pháp được thiết kế riêng"
-                      : "Tailored Solutions"}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="group relative bg-gray-700/30 p-8 rounded-2xl backdrop-blur-lg border border-gray-600 hover:border-blue-400 transition-all duration-300 hover:-translate-y-2">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+                <div className="relative">
+                  <div className="w-20 h-20 bg-gray-800 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                    <svg
+                      className="w-10 h-10 text-blue-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9.75 17L9 20l-1 1h8l-1-1l-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-100 mb-4">
+                    {locale === "vi" ? "Thiết Kế Web" : "Web Design"}
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-gray-400 leading-relaxed">
                     {locale === "vi"
-                      ? "Chúng tôi không tin vào một kích thước phù hợp cho tất cả. Mỗi trang web chúng tôi xây dựng hoặc bảo trì đều được thiết kế độc đáo để đáp ứng các mục tiêu và nhận dạng thương hiệu của bạn."
-                      : "We don't believe in one-size-fits-all. Every website we build or maintain is uniquely crafted to meet your specific goals and brand identity."}
+                      ? "Thiết kế website chuyên nghiệp, hiện đại với trải nghiệm người dùng tối ưu"
+                      : "Modern, responsive web design with optimal user experience"}
                   </p>
                 </div>
               </div>
-              <div className="flex items-start bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                <div className="flex-shrink-0 text-indigo-600 mr-4 mt-1">
-                  <svg
-                    className="h-8 w-8"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.007 12.007 0 002.944 12c.045 1.135.178 2.261.393 3.364l-.248 1.488a.75.75 0 00.912.912l1.488-.248c1.103.215 2.229.348 3.364.393a12.007 12.007 0 009.096-2.944 11.955 11.955 0 013.04-8.618z"
-                    ></path>
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2 text-gray-800">
-                    {locale === "vi" ? "Đội ngũ chuyên nghiệp" : "Expert Team"}
-                  </h3>
-                  <p className="text-gray-600">
+
+              <div className="group relative bg-gray-700/30 p-8 rounded-2xl backdrop-blur-lg border border-gray-600 hover:border-purple-400 transition-all duration-300 hover:-translate-y-2">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+                <div className="relative">
+                  <div className="w-20 h-20 bg-gray-800 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                    <svg
+                      className="w-10 h-10 text-purple-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-100 mb-4">
                     {locale === "vi"
-                      ? "Đội ngũ của chúng tôi bao gồm các nhà phát triển, thiết kế và nhà phát triển chiến lược điện tử được đào tạo để cung cấp kết quả chất lượng cao."
-                      : "Our team comprises experienced developers, designers, and digital strategists dedicated to delivering high-quality results."}
+                      ? "Phát Triển Ứng Dụng"
+                      : "App Development"}
+                  </h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    {locale === "vi"
+                      ? "Xây dựng ứng dụng di động và web app hiệu năng cao"
+                      : "High-performance mobile apps and web applications"}
                   </p>
                 </div>
               </div>
-              <div className="flex items-start bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                <div className="flex-shrink-0 text-indigo-600 mr-4 mt-1">
-                  <svg
-                    className="h-8 w-8"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
-                    ></path>
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2 text-gray-800">
-                    {locale === "vi"
-                      ? "Hỗ trợ đáng tin cậy"
-                      : "Reliable Support"}
+
+              <div className="group relative bg-gray-700/30 p-8 rounded-2xl backdrop-blur-lg border border-gray-600 hover:border-blue-400 transition-all duration-300 hover:-translate-y-2">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+                <div className="relative">
+                  <div className="w-20 h-20 bg-gray-800 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                    <svg
+                      className="w-10 h-10 text-blue-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-100 mb-4">
+                    {locale === "vi" ? "Tối Ưu SEO" : "SEO Optimization"}
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-gray-400 leading-relaxed">
                     {locale === "vi"
-                      ? "Chúng tôi cung cấp hỗ trợ liên tục và bảo trì để đảm bảo trang web của bạn luôn chạy trơn tru, giảm thời gian ngừng hoạt động."
-                      : "We provide ongoing support and proactive maintenance to ensure your website always runs smoothly, minimizing downtime."}
+                      ? "Tối ưu hóa công cụ tìm kiếm để tăng lượng truy cập tự nhiên"
+                      : "Search engine optimization to boost organic traffic"}
                   </p>
                 </div>
               </div>
-              <div className="flex items-start bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                <div className="flex-shrink-0 text-indigo-600 mr-4 mt-1">
-                  <svg
-                    className="h-8 w-8"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 8c1.333-1.333 2.667-1.333 4 0s2.667 3.333 0 4l-4 4-4-4c-2.667-1.333-1.333-4 0-4s2.667-1.333 4 0z"
-                    ></path>
-                  </svg>
+            </div>
+          </div>
+        </section>
+
+        <section id="benefits" className="py-16 sm:py-24 bg-gray-900">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-4xl sm:text-5xl font-bold text-center mb-16 text-transparent bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text">
+              {locale === "vi" ? "Lợi Ích" : "Why Choose Us"}
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              <div className="flex flex-col md:flex-row items-start space-y-6 md:space-y-0 md:space-x-8">
+                <div className="flex-shrink-0 w-full md:w-1/3">
+                  <div className="bg-gradient-to-br from-blue-500 to-purple-500 p-1 rounded-2xl">
+                    <div className="bg-gray-800 p-6 rounded-xl h-full">
+                      <svg
+                        className="w-12 h-12 text-blue-400 mb-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M13 10V3L4 14h7v7l9-11h-7z"
+                        />
+                      </svg>
+                      <h3 className="text-2xl font-bold text-gray-100 mb-2">
+                        {locale === "vi" ? "Hiệu Suất Cao" : "High Performance"}
+                      </h3>
+                      <p className="text-gray-400">
+                        {locale === "vi"
+                          ? "Ứng dụng tải nhanh, mượt mà trên mọi thiết bị"
+                          : "Lightning-fast loading and smooth operation across all devices"}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2 text-gray-800">
+                <div className="flex-grow">
+                  <h3 className="text-2xl font-bold text-gray-100 mb-4">
                     {locale === "vi"
-                      ? "Giải pháp có hiệu quả chi phí"
-                      : "Cost-Effective Solutions"}
+                      ? "Công Nghệ Tiên Tiến"
+                      : "Cutting-edge Technology"}
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-gray-400 leading-relaxed">
                     {locale === "vi"
-                      ? "Nhận các dịch vụ web chuyên nghiệp mà không phải bất kỳ chi phí nào."
-                      : "Get professional web services without breaking the bank. We offer transparent pricing and scalable solutions for every budget."}
+                      ? "Sử dụng các framework và công cụ mới nhất để đảm bảo hiệu suất và bảo mật tối ưu"
+                      : "Utilizing the latest frameworks and tools to ensure optimal performance and security"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col md:flex-row items-start space-y-6 md:space-y-0 md:space-x-8">
+                <div className="flex-shrink-0 w-full md:w-1/3">
+                  <div className="bg-gradient-to-br from-purple-500 to-blue-500 p-1 rounded-2xl">
+                    <div className="bg-gray-800 p-6 rounded-xl h-full">
+                      <svg
+                        className="w-12 h-12 text-purple-400 mb-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                        />
+                      </svg>
+                      <h3 className="text-2xl font-bold text-gray-100 mb-2">
+                        {locale === "vi"
+                          ? "Bảo Mật Mạnh Mẽ"
+                          : "Robust Security"}
+                      </h3>
+                      <p className="text-gray-400">
+                        {locale === "vi"
+                          ? "Bảo vệ dữ liệu với mã hóa tiên tiến"
+                          : "Advanced encryption and security protocols"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex-grow">
+                  <h3 className="text-2xl font-bold text-gray-100 mb-4">
+                    {locale === "vi"
+                      ? "An Toàn Tuyệt Đối"
+                      : "Complete Protection"}
+                  </h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    {locale === "vi"
+                      ? "Hệ thống bảo mật đa lớp và cập nhật thường xuyên"
+                      : "Multi-layered security systems with regular updates"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col md:flex-row items-start space-y-6 md:space-y-0 md:space-x-8">
+                <div className="flex-shrink-0 w-full md:w-1/3">
+                  <div className="bg-gradient-to-br from-blue-500 to-purple-500 p-1 rounded-2xl">
+                    <div className="bg-gray-800 p-6 rounded-xl h-full">
+                      <svg
+                        className="w-12 h-12 text-blue-400 mb-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                        />
+                      </svg>
+                      <h3 className="text-2xl font-bold text-gray-100 mb-2">
+                        {locale === "vi" ? "Hỗ Trợ 24/7" : "24/7 Support"}
+                      </h3>
+                      <p className="text-gray-400">
+                        {locale === "vi"
+                          ? "Đội ngũ hỗ trợ luôn sẵn sàng"
+                          : "Round-the-clock technical support"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex-grow">
+                  <h3 className="text-2xl font-bold text-gray-100 mb-4">
+                    {locale === "vi" ? "Luôn Đồng Hành" : "Always Available"}
+                  </h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    {locale === "vi"
+                      ? "Hỗ trợ kỹ thuật và tư vấn chuyên sâu mọi lúc"
+                      : "Technical support and expert consultation whenever you need"}
                   </p>
                 </div>
               </div>
@@ -493,164 +602,176 @@ export default function Index() {
           </div>
         </section>
 
-        <section id="contact" className="py-16 sm:py-24 bg-white">
+        <section id="contact" className="py-16 sm:py-24 bg-gray-800">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-            <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 text-gray-900">
-              {locale === "vi" ? "Liên hệ chúng tôi" : "Contact Us"}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                    {locale === "vi"
-                      ? "Liên hệ với chúng tôi:"
-                      : "Connect with us:"}
-                  </h3>
-                  <p className="text-gray-600 flex items-center">
-                    <svg
-                      className="inline-block w-5 h-5 align-middle mr-2 text-indigo-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M3 8l7.9 5.3M21 8l-7.9 5.3M3 8a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"
-                      ></path>
-                    </svg>
-                    <a
-                      href="mailto:info@websolutions.com"
-                      className="hover:underline"
-                    >
-                      info@websolutions.com
-                    </a>
-                  </p>
-                  <p className="text-gray-600 flex items-center mt-2">
-                    <svg
-                      className="inline-block w-5 h-5 align-middle mr-2 text-indigo-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"
-                      ></path>
-                    </svg>
-                    +1 (555) 123-4567
-                  </p>
-                  <p className="text-gray-600 flex items-center mt-2">
-                    <svg
-                      className="inline-block w-5 h-5 align-middle mr-2 text-indigo-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                      ></path>
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                      ></path>
-                    </svg>
-                    {locale === "vi"
-                      ? "123 Đường Web, Tầng 400, Thành phốville, ST 12345"
-                      : "123 Web Street, Suite 400, Cityville, ST 12345"}
-                  </p>
+            <div className="bg-gray-900 rounded-3xl p-8 sm:p-12 lg:p-16 shadow-2xl">
+              <h2 className="text-4xl sm:text-5xl font-bold text-center mb-12 text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text">
+                {locale === "vi" ? "Liên Hệ" : "Contact Us"}
+              </h2>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div className="space-y-8">
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 p-3 bg-gray-800 rounded-lg">
+                      <svg
+                        className="w-8 h-8 text-blue-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M3 8l7.9 5.3M21 8l-7.9 5.3M3 8a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-100 mb-2">
+                        {locale === "vi" ? "Email" : "Email"}
+                      </h3>
+                      <a
+                        href="mailto:duyminhweb22@gmail.com"
+                        className="text-gray-400 hover:text-blue-400 transition-colors"
+                      >
+                        duyminhweb22@gmail.com
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 p-3 bg-gray-800 rounded-lg">
+                      <svg
+                        className="w-8 h-8 text-purple-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-100 mb-2">
+                        {locale === "vi" ? "Điện Thoại" : "Phone"}
+                      </h3>
+                      <p className="text-gray-400">+84 935 38 99X</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 p-3 bg-gray-800 rounded-lg">
+                      <svg
+                        className="w-8 h-8 text-blue-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-100 mb-2">
+                        {locale === "vi" ? "Văn Phòng" : "Office"}
+                      </h3>
+                      <p className="text-gray-400">
+                        {locale === "vi"
+                          ? "Đường 53, Phường Hiệp Bình, TP Thủ Đức, TP.HCM"
+                          : "Street 53, Hiep Binh Ward, HCMC"}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                  {locale === "vi"
-                    ? "Gửi cho chúng tôi một tin nhắn:"
-                    : "Send us a message:"}
-                </h3>
-                <Form method="post" className="space-y-4">
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-sm font-medium text-gray-700"
+
+                <div>
+                  <Form method="post" className="space-y-6">
+                    <div>
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-gray-300 mb-2"
+                      >
+                        {locale === "vi" ? "Họ Tên" : "Full Name"}
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-100 placeholder-gray-500"
+                        placeholder={
+                          locale === "vi" ? "Nguyễn Văn A" : "John Doe"
+                        }
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium text-gray-300 mb-2"
+                      >
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-100 placeholder-gray-500"
+                        placeholder="your@email.com"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="message"
+                        className="block text-sm font-medium text-gray-300 mb-2"
+                      >
+                        {locale === "vi" ? "Nội Dung" : "Message"}
+                      </label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        rows={4}
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-100 placeholder-gray-500"
+                        placeholder={
+                          locale === "vi"
+                            ? "Mô tả dự án của bạn..."
+                            : "Describe your project..."
+                        }
+                        required
+                      ></textarea>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-xl hover:opacity-90 transition-opacity"
                     >
-                      {locale === "vi" ? "Tên" : "Name"}
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder={
-                        locale === "vi" ? "Tên của bạn" : "Your Name"
-                      }
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      {locale === "vi" ? "Email" : "Email"}
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder={
-                        locale === "vi"
-                          ? "your@example.com"
-                          : "your@example.com"
-                      }
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      {locale === "vi" ? "Tin nhắn" : "Message"}
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={4}
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder={
-                        locale === "vi"
-                          ? "Nói về dự án của bạn..."
-                          : "Tell us about your project..."
-                      }
-                      required
-                    ></textarea>
-                  </div>
-                  <button
-                    type="submit"
-                    className={`${btnPrimaryClasses} w-full`}
-                  >
-                    {locale === "vi" ? "Gửi tin nhắn" : "Send Message"}
-                  </button>
-                </Form>
+                      {locale === "vi" ? "Gửi Tin Nhắn" : "Send Message"}
+                    </button>
+                  </Form>
+                </div>
               </div>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="bg-gray-800 text-white py-8 mt-12 rounded-t-lg">
+      <footer className="bg-gray-800 text-white py-8 rounded-t-lg">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
           <p>&copy; 2025 Duy Minh. All rights reserved.</p>
         </div>
