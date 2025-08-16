@@ -11,6 +11,7 @@ import { getLocale, setLocale } from "~/i18n/i18n.server";
 import enTranslations from "~/i18n/locales/en.json";
 import viTranslations from "~/i18n/locales/vi.json";
 import Menu from "~/components/Menu";
+import { createSupabaseServerClient } from "~/lib/supabase/supabase.server";
 
 const translations = {
   en: enTranslations,
@@ -44,20 +45,45 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
-  const newLocale = formData.get("locale") as string;
-  if (newLocale && ["en", "vi"].includes(newLocale)) {
-    return redirect(request.url, {
-      headers: {
-        "Set-Cookie": await setLocale(request, newLocale as "vi" | "en"),
-      },
-    });
+  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
+  const message = formData.get("message") as string;
+  const locale = formData.get("locale") as string;
+
+  try {
+    if (locale) {
+      return redirect(request.url, {
+        headers: {
+          "Set-Cookie": await setLocale(request, locale as "vi" | "en"),
+        },
+      });
+    }
+
+    if (!!message && !!name && !!email) {
+      const supabase = createSupabaseServerClient(request);
+
+      // Insert contact
+      const { error } = await supabase.client
+        .from("contacts")
+        .insert([{ name, email, message }]);
+
+      if (error) {
+        console.error("Error inserting contact:", error);
+        return json({ error: "Failed to submit contact" }, { status: 500 });
+      }
+    }
+
+    return redirect(request.url);
+  } catch (error) {
+    console.error("Error:", error);
+    return json({ error: "Internal server error" }, { status: 500 });
   }
-  return null;
 };
 
 export default function Index() {
   const { locale, t }: { locale?: string; t?: any } = useLoaderData();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const btnPrimaryClasses =
     "inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:opacity-90 transition-opacity duration-300";
   const btnSecondaryClasses =
@@ -545,7 +571,37 @@ export default function Index() {
                 </div>
 
                 <div>
-                  <Form method="post" className="space-y-6">
+                  <Form
+                    method="post"
+                    className="space-y-6"
+                    onSubmit={(e) => {
+                      const now = Date.now();
+                      const submissions = JSON.parse(
+                        localStorage.getItem("contactSubmissions") || "[]"
+                      );
+                      const recentSubmissions = submissions.filter(
+                        (timestamp: number) => now - timestamp < 300000 // 5 minutes in milliseconds
+                      );
+
+                      if (recentSubmissions.length >= 2) {
+                        e.preventDefault();
+                        setSubmitError(
+                          "Too many requests. Please try again later."
+                        );
+                        return;
+                      }
+
+                      localStorage.setItem(
+                        "contactSubmissions",
+                        JSON.stringify([...submissions, now].slice(-2))
+                      );
+                    }}
+                  >
+                    {submitError && (
+                      <div className="text-red-500 p-4 bg-red-100 rounded-lg mb-4">
+                        {submitError}
+                      </div>
+                    )}
                     <div>
                       <label
                         htmlFor="name"
