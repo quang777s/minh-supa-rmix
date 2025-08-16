@@ -86,7 +86,8 @@
     },
     "menu": {
       "open": "Mở menu",
-      "close": "Đóng menu"
+      "close": "Đóng menu",
+      "templates": "Mẫu"
     },
     "copyright": "© 2024 TARAMIND. Bảo lưu mọi quyền."
   },
@@ -181,6 +182,10 @@
         "back": "Quay Lại Bảng Điều Khiển"
       }
     }
+  },
+  "templates": {
+    "choose_template": "Chọn Mẫu",
+    "preview_template": "Xem Trước"
   },
   "auth": {
     "login": {
@@ -302,4 +307,4 @@
       }
     }
   }
-} 
+}

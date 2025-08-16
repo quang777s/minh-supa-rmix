@@ -1,247 +1,195 @@
-import { Link, useLocation } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { useState } from "react";
-
-type Page = {
-  id: number;
-  title: string;
-  slug: string;
-};
+import { LanguageSwitcher } from "~/components/language-switcher";
 
 type MenuProps = {
-  pages: Page[];
-  t: {
-    logo?: {
-      alt: string;
-    };
-    menu?: {
-      open: string;
-      close: string;
-    };
-    auth?: {
-      login: {
-        title: string;
-        description: string;
-        form: {
-          email: string;
-          emailPlaceholder: string;
-          password: string;
-          passwordPlaceholder: string;
-          submit: string;
-          submitting: string;
-          noAccount: string;
-          register: string;
-          forgotPassword: string;
-        };
+  locale?: string;
+  t?: {
+    landing?: {
+      menu?: {
+        open: string;
+        close: string;
+        templates?: string;
       };
-      register: {
-        title: string;
-        description: string;
-        form: {
-          name: string;
-          namePlaceholder: string;
-          email: string;
-          emailPlaceholder: string;
-          password: string;
-          passwordPlaceholder: string;
-          confirmPassword: string;
-          confirmPasswordPlaceholder: string;
-          submit: string;
-          submitting: string;
-          hasAccount: string;
-          login: string;
-        };
+      logo?: {
+        alt: string;
       };
     };
   };
-  onMenuClick?: (slug: string) => void;
-  isLoggedIn?: boolean;
 };
 
-export default function Menu({ pages, t, onMenuClick, isLoggedIn }: MenuProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
+export default function Menu({ locale, t }: MenuProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleSmoothScroll = (id: string) => {
+    const header = document.querySelector("header");
+    const el = document.getElementById(id);
+    if (el && header) {
+      const headerHeight = header.offsetHeight;
+      const yOffset =
+        el.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+      window.scrollTo({ top: yOffset, behavior: "smooth" });
+    }
+  };
 
   return (
-    <nav className="fixed w-full bg-black/50 backdrop-blur-sm z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-12">
-          <div className="flex-shrink-0">
-            <Link to="/">
-              <img
-                src="/logo/taramind-logo.jpg"
-                alt={t.logo?.alt || "Taramind Logo"}
-                className="h-8 w-auto"
-              />
-            </Link>
+    <header className="bg-gray-900/95 backdrop-blur-lg border-b border-gray-800 py-5 sticky top-0 z-50 transition-all duration-300 hover:border-purple-500">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <a href="/" className="flex items-center group space-x-3">
+          <img
+            src="/dm640.png"
+            alt={(t?.landing?.logo?.alt || "Logo") + ""}
+            className="h-14 w-auto transition-transform duration-500 group-hover:rotate-[360deg]"
+          />
+          <div className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent animate-gradient">
+            Duy Minh
           </div>
+        </a>
 
-          {/* Mobile menu button */}
+        <nav className="hidden md:flex space-x-8">
+          <button
+            className="text-gray-600 hover:text-indigo-600 font-medium rounded-lg px-3 py-2"
+            onClick={() => {
+              if (window.location.pathname !== "/") {
+                window.location.href = "/#services";
+              } else {
+                handleSmoothScroll("services");
+              }
+            }}
+          >
+            {locale === "vi" ? "Dịch vụ" : "Services"}
+          </button>
+          <button
+            className="text-gray-600 hover:text-indigo-600 font-medium rounded-lg px-3 py-2"
+            onClick={() => {
+              if (window.location.pathname !== "/") {
+                window.location.href = "/#benefits";
+              } else {
+                handleSmoothScroll("benefits");
+              }
+            }}
+          >
+            {locale === "vi" ? "Tại sao chọn chúng tôi" : "Why Choose Us"}
+          </button>
+          <button
+            className="text-gray-600 hover:text-indigo-600 font-medium rounded-lg px-3 py-2"
+            onClick={() => {
+              // If not on home page, navigate to home first
+              if (window.location.pathname !== "/") {
+                window.location.href = "/#contact";
+              } else {
+                handleSmoothScroll("contact");
+              }
+            }}
+          >
+            {locale === "vi" ? "Liên hệ" : "Contact"}
+          </button>
+          <Link
+            to="/templates"
+            className="text-gray-600 hover:text-indigo-600 font-medium rounded-lg px-3 py-2"
+          >
+            {locale === "vi" ? "Mẫu" : "Templates"}
+          </Link>
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <LanguageSwitcher currentLocale={locale!} />
           <div className="md:hidden">
             <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-white hover:text-gray-300 focus:outline-none"
-              aria-label={
-                isMenuOpen
-                  ? t.menu?.close || "Close menu"
-                  : t.menu?.open || "Open menu"
-              }
+              className="text-gray-600 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md p-2"
+              aria-label={t?.landing?.menu?.open || "Open menu"}
+              aria-expanded={mobileMenuOpen}
+              onClick={() => setMobileMenuOpen((open) => !open)}
             >
               <svg
                 className="h-6 w-6"
                 fill="none"
-                viewBox="0 0 24 24"
                 stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                {isMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
               </svg>
             </button>
           </div>
-
-          {/* Desktop menu */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-2">
-              {pages?.map((page) =>
-                onMenuClick ? (
-                  <button
-                    key={page.id}
-                    onClick={() => onMenuClick(page.slug)}
-                    className="text-white hover:text-gray-300 px-2 py-1 text-sm"
-                  >
-                    {page.title}
-                  </button>
-                ) : (
-                  <Link
-                    key={page.id}
-                    to={`/page/${page.slug}`}
-                    className="text-white hover:text-gray-300 px-2 py-1 text-sm"
-                  >
-                    {page.title}
-                  </Link>
-                )
-              )}
-              <Link
-                to={`/blog`}
-                className={`text-white hover:text-gray-300 px-2 py-1 text-sm`}
-              >
-                Blogger
-              </Link>
-              <Link
-                to={`/tra-tu`}
-                className={`text-white hover:text-gray-300 px-2 py-1 text-sm`}
-              >
-                Từ Điển
-              </Link>
-              {!isLoggedIn && (
-                <>
-                  <Link
-                    to={`/register`}
-                    className={`text-white hover:text-gray-300 px-2 py-1 text-sm`}
-                  >
-                    Đăng Ký
-                  </Link>
-                  <Link
-                    to={`/login`}
-                    className={`text-white hover:text-gray-300 px-2 py-1 text-sm`}
-                  >
-                    Đăng Nhập
-                  </Link>
-                </>
-              )}
-              {isLoggedIn && (
-                <Link
-                  to={`/logout`}
-                  className={`text-white hover:text-gray-300 px-2 py-1 text-sm`}
-                >
-                  Đăng Xuất
-                </Link>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile menu */}
-        <div className={`md:hidden ${isMenuOpen ? "block" : "hidden"}`}>
-          <div className="px-2 pt-2 pb-3 space-y-1 bg-black backdrop-blur-sm">
-            {pages?.map((page) =>
-              onMenuClick ? (
-                <button
-                  key={page.id}
-                  onClick={() => {
-                    onMenuClick(page.slug);
-                    setIsMenuOpen(false);
-                  }}
-                  className="block w-full text-left text-white hover:text-gray-300 px-3 py-2 text-sm"
-                >
-                  {page.title}
-                </button>
-              ) : (
-                <Link
-                  key={page.id}
-                  to={`/page/${page.slug}`}
-                  className="block w-full text-left text-white hover:text-gray-300 px-3 py-2 text-sm"
-                >
-                  {page.title}
-                </Link>
-              )
-            )}
-            <Link
-              to={`/blog`}
-              className="block w-full text-left text-white hover:text-gray-300 px-3 py-2 text-sm"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Blogger
-            </Link>
-            <Link
-              to={`/tra-tu`}
-              className="block w-full text-left text-white hover:text-gray-300 px-3 py-2 text-sm"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Từ Điển
-            </Link>
-            {!isLoggedIn && (
-              <>
-                <Link
-                  to={`/register`}
-                  className="block w-full text-left text-white hover:text-gray-300 px-3 py-2 text-sm"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Đăng Ký
-                </Link>
-                <Link
-                  to={`/login`}
-                  className="block w-full text-left text-white hover:text-gray-300 px-3 py-2 text-sm"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Đăng Nhập
-                </Link>
-              </>
-            )}
-            {isLoggedIn && (
-              <Link
-                to={`/logout`}
-                className="block w-full text-left text-white hover:text-gray-300 px-3 py-2 text-sm"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Đăng Xuất
-              </Link>
-            )}
-          </div>
         </div>
       </div>
-    </nav>
+
+      {mobileMenuOpen && (
+        <nav className="md:hidden bg-white shadow-lg border-b border-gray-100 fixed top-0 left-0 right-0 w-full z-50">
+          <div className="relative flex flex-col px-4 py-4 space-y-2 pt-20">
+            <button
+              className="absolute top-4 right-4 text-gray-600 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md p-2"
+              aria-label={t?.landing?.menu?.close || "Close menu"}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <button
+              className="text-gray-700 hover:text-indigo-600 font-medium rounded-lg px-3 py-2 text-left"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (window.location.pathname !== "/") {
+                  window.location.href = "/#services";
+                } else {
+                  handleSmoothScroll("services");
+                }
+              }}
+            >
+              {locale === "vi" ? "Dịch vụ" : "Services"}
+            </button>
+            <button
+              className="text-gray-700 hover:text-indigo-600 font-medium rounded-lg px-3 py-2 text-left"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (window.location.pathname !== "/") {
+                  window.location.href = "/#benefits";
+                } else {
+                  handleSmoothScroll("benefits");
+                }
+              }}
+            >
+              {locale === "vi" ? "Tại sao chọn chúng tôi" : "Why Choose Us"}
+            </button>
+            <button
+              className="text-gray-700 hover:text-indigo-600 font-medium rounded-lg px-3 py-2 text-left"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (window.location.pathname !== "/") {
+                  window.location.href = "/#contact";
+                } else {
+                  handleSmoothScroll("contact");
+                }
+              }}
+            >
+              {locale === "vi" ? "Liên hệ" : "Contact"}
+            </button>
+            <Link
+              to="/templates"
+              className="text-gray-700 hover:text-indigo-600 font-medium rounded-lg px-3 py-2"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {locale === "vi" ? "Mẫu" : "Templates"}
+            </Link>
+          </div>
+        </nav>
+      )}
+    </header>
   );
 }

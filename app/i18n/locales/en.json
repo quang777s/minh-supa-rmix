@@ -86,7 +86,8 @@
     },
     "menu": {
       "open": "Open menu",
-      "close": "Close menu"
+      "close": "Close menu",
+      "templates": "Templates"
     },
     "copyright": "© 2024 TARAMIND. All Rights Reserved."
   },
@@ -182,6 +183,13 @@
       }
     }
   },
+  "templates": {
+    "choose_template": "Choose Your Template",
+    "preview_template": "Preview Template",
+    "E-commerce Template": "E-commerce Template",
+    "Furniture Store": "Furniture Store",
+    "Business Portfolio": "Business Portfolio"
+  },
   "auth": {
     "login": {
       "title": "Welcome Back",
@@ -198,6 +206,24 @@
         "facebookLogin": "Continue with Facebook",
         "googleLogin": "Continue with Google",
         "forgotPassword": "Forgot password?"
+      }
+    },
+    "register": {
+      "title": "Create Account",
+      "description": "Enter your information to create your account",
+      "form": {
+        "name": "Full Name",
+        "namePlaceholder": "Enter your full name",
+        "email": "Email",
+        "emailPlaceholder": "Enter your email",
+        "password": "Password",
+        "passwordPlaceholder": "Create a password",
+        "confirmPassword": "Confirm Password",
+        "confirmPasswordPlaceholder": "Confirm your password",
+        "submit": "Create Account",
+        "submitting": "Creating account...",
+        "hasAccount": "Already have an account?",
+        "login": "Sign in"
       }
     },
     "forgotPassword": {
@@ -222,24 +248,6 @@
         "confirmPasswordPlaceholder": "Confirm your new password",
         "submit": "Reset Password",
         "submitting": "Resetting..."
-      }
-    },
-    "register": {
-      "title": "Create Account",
-      "description": "Enter your information to create your account",
-      "form": {
-        "name": "Full Name",
-        "namePlaceholder": "Enter your full name",
-        "email": "Email",
-        "emailPlaceholder": "Enter your email",
-        "password": "Password",
-        "passwordPlaceholder": "Create a password",
-        "confirmPassword": "Confirm Password",
-        "confirmPasswordPlaceholder": "Confirm your password",
-        "submit": "Create Account",
-        "submitting": "Creating account...",
-        "hasAccount": "Already have an account?",
-        "login": "Sign in"
       }
     }
   },
@@ -302,4 +310,4 @@
       }
     }
   }
-} 
+}
